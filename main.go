@@ -9,7 +9,7 @@ import (
 func main() {
 	domain := "dc.services.visualstudio.com"
 
-	cmd := exec.Command("dig", domain)
+	cmd := exec.Command("dig", domain, "@1.1.1.1")
 	out, err := cmd.Output()
 	if err != nil {
 		fmt.Printf("dig ERROR: %s\n", err.Error())
