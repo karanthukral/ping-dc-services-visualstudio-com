@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"os/exec"
+	"time"
 )
 
 func main() {
@@ -17,13 +19,23 @@ func main() {
 		fmt.Printf("dig out: %s\n", string(out))
 	}
 
-	ips, err := net.LookupIP(domain)
+	resolver := &net.Resolver{
+		PreferGo: true,
+		Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+			d := net.Dialer{
+				Timeout: time.Millisecond * time.Duration(10000),
+			}
+			return d.DialContext(ctx, "udp", "1.1.1.1:53")
+		},
+	}
+
+	addrs, err := resolver.LookupHost(context.Background(), domain)
 	if err != nil {
 		fmt.Printf("ERROR: %s\n", err.Error())
 		return
 	}
 
-	for _, ip := range ips {
-		fmt.Printf("%s. IN A %s\n", domain, ip.String())
+	for _, ip := range addrs {
+		fmt.Printf("%s. IN %s\n", domain, ip)
 	}
 }
