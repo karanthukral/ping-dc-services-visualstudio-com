@@ -33,7 +33,7 @@ func main() {
 			d := net.Dialer{
 				Timeout: time.Millisecond * time.Duration(10000),
 			}
-			return d.DialContext(ctx, "udp", "1.1.1.1:53")
+			return d.DialContext(ctx, "udp", "67.207.67.2:53")
 		},
 	}
 
