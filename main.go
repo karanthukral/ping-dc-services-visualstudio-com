@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net"
 	"os/exec"
@@ -36,13 +35,13 @@ func main() {
 	// 	},
 	// }
 
-	addrs, err := net.DefaultResolver.LookupAddr(context.Background(), domain)
+	addrs, err := net.LookupIP(domain)
 	if err != nil {
 		fmt.Printf("ERROR: %s\n", err.Error())
 		return
 	}
 
 	for _, ip := range addrs {
-		fmt.Printf("%s. IN %s\n", domain, ip)
+		fmt.Printf("%s. IN %s\n", domain, ip.String())
 	}
 }
