@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net"
 	"os/exec"
-	"time"
 )
 
 func main() {
@@ -27,17 +26,17 @@ func main() {
 		fmt.Printf("dig 67.207.67.2 out: %s\n", string(out))
 	}
 
-	resolver := &net.Resolver{
-		PreferGo: true,
-		Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
-			d := net.Dialer{
-				Timeout: time.Millisecond * time.Duration(10000),
-			}
-			return d.DialContext(ctx, "udp", "67.207.67.2:53")
-		},
-	}
+	// resolver := &net.Resolver{
+	// 	PreferGo: true,
+	// 	Dial: func(ctx context.Context, network, address string) (net.Conn, error) {
+	// 		d := net.Dialer{
+	// 			Timeout: time.Millisecond * time.Duration(10000),
+	// 		}
+	// 		return d.DialContext(ctx, "udp", "67.207.67.2:53")
+	// 	},
+	// }
 
-	addrs, err := resolver.LookupHost(context.Background(), domain)
+	addrs, err := net.DefaultResolver.LookupAddr(context.Background(), domain)
 	if err != nil {
 		fmt.Printf("ERROR: %s\n", err.Error())
 		return
