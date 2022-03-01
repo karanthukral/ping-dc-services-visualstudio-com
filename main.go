@@ -18,12 +18,12 @@ func main() {
 		fmt.Printf("dig 1.1.1.1 out: %s\n", string(out))
 	}
 
-	cmd = exec.Command("dig", domain, "@67.207.67.2")
+	cmd = exec.Command("dig", domain)
 	out, err = cmd.Output()
 	if err != nil {
-		fmt.Printf("dig 67.207.67.2 ERROR: %s\n", err.Error())
+		fmt.Printf("dig default ERROR: %s\n", err.Error())
 	} else {
-		fmt.Printf("dig 67.207.67.2 out: %s\n", string(out))
+		fmt.Printf("dig default out: %s\n", string(out))
 	}
 
 	// resolver := &net.Resolver{
